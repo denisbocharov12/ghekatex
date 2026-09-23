@@ -1,0 +1,108 @@
+name: GitHub Pages
+
+# Витрина выкладывается статикой: workflow поднимает Laravel целиком,
+# обходит его по списку публичных адресов и публикует готовый HTML.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Параллельные выкладки не нужны, но начатую не обрываем
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Сборка статики
+    runs-on: ubuntu-latest
+
+    env:
+      SITE_URL: ${{ format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
+      BASE_PATH: ${{ github.event.repository.name }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, gd, sqlite3, pdo_sqlite, intl, zip
+          coverage: none
+
+      - run: composer install --no-interaction --prefer-dist --no-progress --no-dev --optimize-autoloader
+
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Окружение под адрес публикации
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          {
+            echo "APP_ENV=production"
+            echo "APP_DEBUG=false"
+            echo "APP_URL=${SITE_URL}/${BASE_PATH}"
+            echo "ASSET_URL=${SITE_URL}/${BASE_PATH}"
+            echo "APP_STORAGE_URL=${SITE_URL}/${BASE_PATH}/storage"
+            echo "DB_CONNECTION=sqlite"
+            echo "DB_DATABASE=$(pwd)/database/database.sqlite"
+          } >> .env
+          touch database/database.sqlite
+
+      - name: База и демонстрационный контент
+        run: |
+          php artisan migrate --force --seed
+          php artisan storage:link
+          # Фотографии тянутся из сети; если не вышло — сидер медиа пропускается
+          node database/seed-media/download.mjs || echo "Демо-фото не скачались, страницы соберутся без них"
+          php artisan db:seed --class=MediaSeeder --force
+
+      - name: Сборка фронтенда
+        run: npm run build
+
+      - name: Запуск приложения
+        run: |
+          php artisan serve --host=127.0.0.1 --port=8000 &
+          for attempt in $(seq 1 30); do
+            if curl -sf -o /dev/null "http://127.0.0.1:8000/ro"; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Приложение не поднялось"
+          exit 1
+
+      - name: Статический экспорт
+        run: node tools/static-export.mjs --origin=http://127.0.0.1:8000 --base="${BASE_PATH}" --out=dist
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Публикация
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
