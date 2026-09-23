@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="44" viewBox="0 0 280 44" role="img" aria-label="TEXTIL">
+  <g color="#0b2239">
+    <path d="M9 34 V21 a13 13 0 0 1 26 0 V34" fill="none" stroke="currentColor" stroke-width="2.4"/>
+    <g fill="currentColor" font-family="'IBM Plex Sans Condensed','IBM Plex Sans',Arial,sans-serif" font-weight="600">
+    <text x="52" y="20" font-size="15" letter-spacing="1.6">TEXTIL</text>
+    <text x="52" y="36" font-size="12" letter-spacing="3.4" opacity="0.7">IBÉRICA</text>
+    </g>
+  </g>
+</svg>

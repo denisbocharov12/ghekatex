@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('hero_slides', function (Blueprint $table) {
+            $table->id();
+            $table->json('eyebrow')->nullable();
+            $table->json('title');
+            $table->json('description')->nullable();
+            $table->json('cta_label')->nullable();
+            $table->string('cta_url')->nullable();
+            $table->json('secondary_cta_label')->nullable();
+            $table->string('secondary_cta_url')->nullable();
+            // Затемнение фонового изображения под текстом, 0..100
+            $table->unsignedTinyInteger('overlay_opacity')->default(55);
+            $table->unsignedInteger('sort_order')->default(0);
+            $table->boolean('is_active')->default(true)->index();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('hero_slides');
+    }
+};

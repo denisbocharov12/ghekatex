@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="44" viewBox="0 0 280 44" role="img" aria-label="LINEA PRIMA">
+  <g color="#0b2239">
+    <g stroke="currentColor" stroke-width="2.4" fill="none"><path d="M8 14 H36"/><path d="M8 22 H28"/><path d="M8 30 H36"/></g>
+    <g fill="currentColor" font-family="'IBM Plex Sans Condensed','IBM Plex Sans',Arial,sans-serif" font-weight="600">
+    <text x="52" y="28" font-size="15" letter-spacing="1.6">LINEA PRIMA</text>
+    </g>
+  </g>
+</svg>

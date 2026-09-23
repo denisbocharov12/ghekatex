@@ -1,0 +1,921 @@
+@import "tailwindcss";
+
+/*
+| Дизайн-система витрины GHEKATEX — редакция 3.
+|
+| Тон задаёт производство, а не бутик: белый фон, узкий гротеск IBM Plex
+| Sans Condensed в заголовках и светлый оттенок фирменного навы в акцентах.
+| Интерфейсные элементы намеренно тихие — работает фотография и видео.
+*/
+
+@theme {
+    /* Ink Blue #0B2239 — основной тёмный фон */
+    --color-ink-50:  #eaeff4;
+    --color-ink-100: #ccd9e4;
+    --color-ink-200: #9db2c7;
+    --color-ink-300: #6d89a7;
+    --color-ink-400: #456484;
+    --color-ink-500: #2b4866;
+    --color-ink-600: #1b3550;
+    --color-ink-700: #123553;
+    --color-ink-800: #0e2b44;
+    --color-ink-900: #0b2239;
+    --color-ink-950: #061523;
+
+    /* Primary — та же синяя основа для текста и ссылок на светлом */
+    --color-primary-50:  #eef3f8;
+    --color-primary-100: #d9e4ee;
+    --color-primary-200: #b4c8db;
+    --color-primary-300: #86a5c2;
+    --color-primary-400: #5a80a3;
+    --color-primary-500: #3d6286;
+    --color-primary-600: #2c4b6b;
+    --color-primary-700: #1f3a55;
+    --color-primary-800: #163046;
+    --color-primary-900: #0b2239;
+    --color-primary-950: #061523;
+
+    /* Malachite #12463C — второй цвет: глубокий зелёный для тёмных сцен */
+    --color-malachite-50:  #eaf3f0;
+    --color-malachite-100: #cae1db;
+    --color-malachite-200: #94c2b6;
+    --color-malachite-300: #5da192;
+    --color-malachite-400: #2f7e6c;
+    --color-malachite-500: #1a6455;
+    --color-malachite-600: #14544a;
+    --color-malachite-700: #12463c;
+    --color-malachite-800: #0e372f;
+    --color-malachite-900: #0a2721;
+
+    /* Amber #E8A33D — акцент: кнопки, надзаголовки, активные состояния */
+    --color-accent-50:  #fdf6ea;
+    --color-accent-100: #fae9cb;
+    --color-accent-200: #f5d599;
+    --color-accent-300: #f0c068;
+    --color-accent-400: #ecb04e;
+    --color-accent-500: #e8a33d;
+    --color-accent-600: #cf8722;
+    --color-accent-700: #a9691a;
+    --color-accent-800: #7d4d17;
+    --color-accent-900: #573512;
+
+    /*
+    | Нейтральная шкала: белый фон витрины, Paper #F2EFE8 для чередующихся
+    | секций и Steel #A9B7C3 для линий и рамок.
+    */
+    --color-bone-50:  #f2efe8;
+    --color-bone-100: #ffffff;
+    --color-bone-200: #e3e8ed;
+    --color-bone-300: #a9b7c3;
+    --color-bone-400: #7f909f;
+    --color-bone-500: #5c6b78;
+    --color-bone-600: #45525c;
+    --color-bone-700: #323c45;
+    --color-bone-800: #1d242c;
+    --color-bone-900: #0f141a;
+
+    --color-success: #12463c;
+    --color-warning: #cf8722;
+    --color-danger:  #b3403a;
+
+    /*
+    | Одна гарнитура на весь сайт. Заголовки — узкое начертание IBM Plex,
+    | текст — обычное. Дидон ушёл: у производственной компании интонация
+    | строгая, а не журнальная, и смена гарнитур только дробила страницу.
+    */
+    --font-sans:    'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    --font-display: 'IBM Plex Sans Condensed', 'IBM Plex Sans', ui-sans-serif, system-ui, 'Segoe UI', Arial, sans-serif;
+}
+
+:root {
+    --gradient-ink:    linear-gradient(160deg, #061523 0%, #0b2239 52%, #12463c 100%);
+    --gradient-accent: linear-gradient(90deg, #cf8722 0%, #f0c068 50%, #cf8722 100%);
+    --gradient-veil:   linear-gradient(180deg, rgba(6, 21, 35, 0) 0%, rgba(6, 21, 35, 0.9) 100%);
+    --gradient-cinema: linear-gradient(100deg, rgba(6, 21, 35, 0.92) 0%, rgba(6, 21, 35, 0.7) 45%, rgba(6, 21, 35, 0.35) 100%);
+    /* Затемнение во втором цвете: отделяет блок заявки от подвала */
+    --gradient-cinema-malachite: linear-gradient(100deg, rgba(10, 39, 33, 0.94) 0%, rgba(14, 55, 47, 0.72) 45%, rgba(18, 70, 60, 0.38) 100%);
+    --pattern-url:     url('/brand/icon_pattern.svg');
+    --header-height:   4rem;
+}
+
+html {
+    scroll-behavior: smooth;
+    background: var(--color-ink-950);
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-bone-800);
+    background: var(--color-bone-100);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+}
+
+::selection {
+    background: var(--color-accent-300);
+    color: var(--color-ink-900);
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-accent-400);
+    outline-offset: 3px;
+}
+
+/* --- Раскладка --------------------------------------------------------- */
+
+@utility container-site {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+    .container-site {
+        padding-inline: 2.5rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    .container-site {
+        padding-inline: 4rem;
+    }
+}
+
+@utility section {
+    padding-block: 3.5rem;
+}
+
+@media (min-width: 768px) {
+    .section {
+        padding-block: 4.75rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    .section {
+        padding-block: 6rem;
+    }
+}
+
+@utility section-ink {
+    background: var(--gradient-ink);
+    color: #fff;
+}
+
+@utility section-bone {
+    background: var(--color-bone-50);
+}
+
+/* Знак бренда тихой подложкой */
+@utility pattern-veil {
+    position: relative;
+    isolation: isolate;
+}
+
+.pattern-veil::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--pattern-url);
+    background-repeat: repeat;
+    background-size: 220px;
+    opacity: 0.04;
+    pointer-events: none;
+}
+
+.section-ink .pattern-veil::before,
+.pattern-veil.on-ink::before {
+    opacity: 0.03;
+    filter: brightness(0) invert(1);
+}
+
+/* --- Типографика ------------------------------------------------------- */
+
+@utility eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-accent-600);
+}
+
+.eyebrow::before {
+    content: '';
+    width: 1.75rem;
+    height: 1px;
+    background: var(--gradient-accent);
+    flex: none;
+}
+
+/* На тёмном синий надзаголовок спорит с логотипом — держим его нейтральным */
+.section-ink .eyebrow,
+.on-ink .eyebrow {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.section-ink .eyebrow::before,
+.on-ink .eyebrow::before {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/*
+| Размеры заголовков заданы явными ступенями: clamp() понимают не все
+| движки, а заголовок обязан остаться крупным даже там, где он не сработает.
+*/
+
+@utility display-1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 2.5rem;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+    .display-1 {
+        font-size: 3.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .display-1 {
+        font-size: 4.75rem;
+    }
+}
+
+@media (min-width: 1440px) {
+    .display-1 {
+        font-size: 5.75rem;
+    }
+}
+
+@utility heading-1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 2.25rem;
+    line-height: 1.06;
+    letter-spacing: -0.018em;
+}
+
+@media (min-width: 640px) {
+    .heading-1 {
+        font-size: 3rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .heading-1 {
+        font-size: 3.75rem;
+    }
+}
+
+@utility heading-2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.875rem;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    color: var(--color-ink-900);
+}
+
+@media (min-width: 768px) {
+    .heading-2 {
+        font-size: 2.375rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    .heading-2 {
+        font-size: 2.875rem;
+    }
+}
+
+.section-ink .heading-2,
+.on-ink .heading-2 {
+    color: #fff;
+}
+
+@utility heading-3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.375rem;
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+    color: var(--color-ink-900);
+}
+
+@media (min-width: 1024px) {
+    .heading-3 {
+        font-size: 1.625rem;
+    }
+}
+
+.section-ink .heading-3,
+.on-ink .heading-3 {
+    color: #fff;
+}
+
+@utility lead {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-bone-600);
+    max-width: 60ch;
+}
+
+@media (min-width: 1024px) {
+    .lead {
+        font-size: 1.0625rem;
+    }
+}
+
+.section-ink .lead,
+.on-ink .lead {
+    color: rgb(255 255 255 / 0.72);
+}
+
+/** Порядковый номер секции — «01 —» перед надзаголовком. */
+@utility section-index {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--color-accent-500);
+}
+
+/* --- Кнопки ------------------------------------------------------------ */
+
+@utility btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 2.875rem;
+    padding-inline: 1.625rem;
+    border-radius: 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    overflow: hidden;
+    isolation: isolate;
+    transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+/*
+| Заливка выезжает снизу — движение вместо простой смены цвета.
+| Слой уходит под содержимое (z-index -1 внутри собственного контекста),
+| поэтому подпись кнопки не нужно оборачивать в дополнительный элемент.
+*/
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn:hover::after {
+    transform: scaleY(1);
+}
+
+/* Янтарь светлый — текст на нём тёмный, иначе кнопка не читается */
+@utility btn-accent {
+    background: var(--color-accent-500);
+    color: var(--color-ink-950);
+}
+
+.btn-accent:hover {
+    color: #fff;
+}
+
+.btn-accent::after {
+    background: var(--color-ink-900);
+}
+
+@utility btn-ink {
+    background: var(--color-ink-900);
+    color: #fff;
+}
+
+.btn-ink:hover {
+    color: var(--color-ink-950);
+}
+
+.btn-ink::after {
+    background: var(--color-accent-500);
+}
+
+@utility btn-outline {
+    border: 1px solid currentColor;
+    color: var(--color-ink-900);
+}
+
+.btn-outline::after {
+    background: var(--color-ink-900);
+}
+
+.btn-outline:hover {
+    color: #fff;
+}
+
+.on-ink .btn-outline,
+.section-ink .btn-outline {
+    color: #fff;
+}
+
+.on-ink .btn-outline::after,
+.section-ink .btn-outline::after {
+    background: #fff;
+}
+
+.on-ink .btn-outline:hover,
+.section-ink .btn-outline:hover {
+    color: var(--color-ink-900);
+}
+
+/* --- Ссылка со стрелкой ------------------------------------------------ */
+
+@utility link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-900);
+    transition: color 0.25s ease;
+}
+
+.link-arrow svg {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-arrow:hover {
+    color: var(--color-accent-600);
+}
+
+.link-arrow:hover svg {
+    transform: translateX(5px);
+}
+
+.on-ink .link-arrow,
+.section-ink .link-arrow {
+    color: #fff;
+}
+
+.on-ink .link-arrow:hover,
+.section-ink .link-arrow:hover {
+    color: var(--color-accent-300);
+}
+
+/* --- Карточки ---------------------------------------------------------- */
+
+@utility card {
+    position: relative;
+    background: #fff;
+    border: 1px solid var(--color-bone-200);
+    transition: border-color 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+
+.card:hover {
+    border-color: var(--color-accent-300);
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px -40px rgb(11 16 32 / 0.55);
+}
+
+/* Угловая засечка — намёк на раскрой */
+@utility card-notch {
+    overflow: hidden;
+}
+
+.card-notch::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 1.75rem;
+    height: 1.75rem;
+    background: var(--gradient-accent);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    transform: translate(100%, 100%);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card-notch:hover::after {
+    transform: translate(0, 0);
+}
+
+/* --- Медиа ------------------------------------------------------------- */
+
+@utility media-frame {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-bone-200);
+}
+
+.media-frame img,
+.media-frame video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.media-frame:hover img {
+    transform: scale(1.05);
+}
+
+@utility media-veil {
+    position: relative;
+}
+
+.media-veil::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 62%;
+    background: var(--gradient-veil);
+    pointer-events: none;
+}
+
+/** Кинематографическое затемнение поверх фонового видео. */
+@utility cinema-veil {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-cinema);
+    pointer-events: none;
+}
+
+@utility cinema-veil-malachite {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-cinema-malachite);
+    pointer-events: none;
+}
+
+/* --- Бегущая строка ---------------------------------------------------- */
+
+@utility marquee {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    user-select: none;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee__track {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 4rem;
+    min-width: 100%;
+    padding-inline-end: 4rem;
+    animation: marquee-scroll 38s linear infinite;
+}
+
+.marquee:hover .marquee__track {
+    animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+
+/* --- Появление при прокрутке ------------------------------------------- */
+
+@utility reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/** Шторка, уезжающая с картинки. */
+@utility reveal-wipe {
+    position: relative;
+    overflow: hidden;
+}
+
+.reveal-wipe::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: var(--color-bone-100);
+    transform: scaleX(1);
+    transform-origin: right;
+    transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.reveal-wipe.is-visible::before {
+    transform: scaleX(0);
+}
+
+.section-ink .reveal-wipe::before,
+.on-ink .reveal-wipe::before {
+    background: var(--color-ink-900);
+}
+
+/* --- Текстовый контент из редактора ------------------------------------ */
+
+.prose-site {
+    color: var(--color-bone-700);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.prose-site h2 {
+    font-family: var(--font-display);
+    font-size: 1.625rem;
+    font-weight: 600;
+    color: var(--color-ink-900);
+    margin-block: 2rem 0.75rem;
+    letter-spacing: -0.015em;
+}
+
+.prose-site h3 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--color-ink-800);
+    margin-block: 1.5rem 0.5rem;
+}
+
+.prose-site p {
+    margin-block: 1rem;
+}
+
+.prose-site ul {
+    list-style: none;
+    margin-block: 1.25rem;
+    padding-inline-start: 0;
+}
+
+.prose-site ul li {
+    position: relative;
+    padding-inline-start: 1.75rem;
+    margin-block: 0.625rem;
+}
+
+.prose-site ul li::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0.75em;
+    width: 0.75rem;
+    height: 1px;
+    background: var(--color-accent-500);
+}
+
+.prose-site ol {
+    margin-block: 1.25rem;
+    padding-inline-start: 1.25rem;
+}
+
+.prose-site ol li {
+    margin-block: 0.625rem;
+}
+
+.prose-site a {
+    color: var(--color-primary-700);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+}
+
+.prose-site a:hover {
+    color: var(--color-accent-600);
+}
+
+.prose-site strong {
+    color: var(--color-ink-900);
+    font-weight: 600;
+}
+
+/* --- Горизонтальная лента --------------------------------------------- */
+
+@utility scroll-x {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.scroll-x::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-x > * {
+    scroll-snap-align: start;
+}
+
+/* --- Уважение к настройкам пользователя -------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .reveal-wipe::before {
+        display: none;
+    }
+
+    .marquee__track {
+        animation: none;
+    }
+}
+
+/* --- Плёночное зерно ---------------------------------------------------- */
+
+/*
+| Лёгкий шум поверх тёмных сцен. Видео и фотографии из разных источников
+| заметно расходятся по фактуре — зерно связывает их в один материал
+| и убирает «пластиковость» градиентов.
+*/
+@utility grain {
+    position: relative;
+}
+
+.grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.055;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --- Затемнение обложки ------------------------------------------------- */
+
+/*
+| Три слоя вместо одного: низ под подписью, левый край под заголовком
+| и общее приглушение. Так текст читается на любом кадре, а картинка
+| не превращается в равномерно серое полотно.
+*/
+@utility hero-veil {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(6, 21, 35, 0.55) 0%, rgba(6, 21, 35, 0) 32%),
+        linear-gradient(0deg, rgba(6, 21, 35, 0.86) 0%, rgba(6, 21, 35, 0.28) 48%, rgba(6, 21, 35, 0) 75%),
+        linear-gradient(90deg, rgba(6, 21, 35, 0.6) 0%, rgba(6, 21, 35, 0.18) 45%, rgba(6, 21, 35, 0) 78%);
+}
+
+/* Медленный наезд камеры — кадр не выглядит стоп-фото */
+@utility ken-burns {
+    animation: ken-burns 26s ease-in-out infinite alternate;
+}
+
+@keyframes ken-burns {
+    from {
+        transform: scale(1.04) translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: scale(1.12) translate3d(-1.5%, -1%, 0);
+    }
+}
+
+/* --- Появление строк заголовка ------------------------------------------ */
+
+@utility line-rise {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+
+.line-rise > span {
+    display: block;
+    transform: translateY(105%);
+    animation: line-rise 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes line-rise {
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* --- Индикатор прокрутки ------------------------------------------------ */
+
+@utility scroll-progress {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 85;
+    height: 2px;
+    transform-origin: left;
+    background: var(--gradient-accent);
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ken-burns {
+        animation: none;
+    }
+
+    .line-rise > span {
+        transform: none;
+        animation: none;
+    }
+}
+
+/*
+| Leaflet держит свои слои на z-index 400 и без собственного контекста
+| наложения перекрывал полноэкранное меню и модальные окна.
+*/
+.leaflet-container {
+    position: relative;
+    z-index: 0;
+    isolation: isolate;
+}
+
+/* Тёмная сцена во втором цвете: блоки заявки над подвалом */
+@utility section-malachite {
+    background: linear-gradient(160deg, #0a2721 0%, #12463c 55%, #0e2b44 100%);
+    color: #fff;
+}
+
+/*
+| Светлая сцена с бликами.
+|
+| Позиции радиальных градиентов привязаны к переменной `--sheen`, которую
+| директива `v-sheen` пересчитывает при прокрутке: пятна медленно проплывают
+| по секции, оставляя фон спокойным.
+*/
+@utility section-sheen {
+    position: relative;
+    isolation: isolate;
+    background-color: var(--color-bone-50);
+}
+
+.section-sheen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(
+            48% 42% at calc(8% + var(--sheen, 0.5) * 34%) calc(6% + var(--sheen, 0.5) * 26%),
+            rgba(58, 111, 232, 0.16) 0%,
+            rgba(58, 111, 232, 0) 100%
+        ),
+        radial-gradient(
+            44% 40% at calc(92% - var(--sheen, 0.5) * 30%) calc(84% - var(--sheen, 0.5) * 30%),
+            rgba(18, 70, 60, 0.14) 0%,
+            rgba(18, 70, 60, 0) 100%
+        ),
+        radial-gradient(
+            36% 34% at calc(64% + var(--sheen, 0.5) * 18%) calc(38% + var(--sheen, 0.5) * 34%),
+            rgba(232, 163, 61, 0.12) 0%,
+            rgba(232, 163, 61, 0) 100%
+        );
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section-sheen::before {
+        opacity: 0.6;
+    }
+}
+
+/* Стальная сцена: светлый блок партнёров на Steel #A9B7C3 */
+@utility section-steel {
+    background: linear-gradient(165deg, #c6d0d9 0%, #a9b7c3 100%);
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="44" viewBox="0 0 280 44" role="img" aria-label="ATELIER">
+  <g color="#0b2239">
+    <rect x="9" y="9" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4"/><rect x="17" y="17" width="10" height="10" fill="currentColor"/>
+    <g fill="currentColor" font-family="'IBM Plex Sans Condensed','IBM Plex Sans',Arial,sans-serif" font-weight="600">
+    <text x="52" y="20" font-size="15" letter-spacing="1.6">ATELIER</text>
+    <text x="52" y="36" font-size="12" letter-spacing="3.4" opacity="0.7">WARSZAWA</text>
+    </g>
+  </g>
+</svg>

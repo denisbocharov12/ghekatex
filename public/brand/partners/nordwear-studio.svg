@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="44" viewBox="0 0 280 44" role="img" aria-label="NORDWEAR">
+  <g color="#0b2239">
+    <g fill="currentColor"><rect x="9" y="12" width="4" height="20"/><rect x="17" y="8" width="4" height="28"/><rect x="25" y="14" width="4" height="16"/><rect x="33" y="18" width="4" height="8"/></g>
+    <g fill="currentColor" font-family="'IBM Plex Sans Condensed','IBM Plex Sans',Arial,sans-serif" font-weight="600">
+    <text x="52" y="20" font-size="15" letter-spacing="1.6">NORDWEAR</text>
+    <text x="52" y="36" font-size="12" letter-spacing="3.4" opacity="0.7">STUDIO</text>
+    </g>
+  </g>
+</svg>

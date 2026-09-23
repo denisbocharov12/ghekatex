@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="44" viewBox="0 0 280 44" role="img" aria-label="MAISON AURELIA">
+  <g color="#0b2239">
+    <path d="M22 8 L36 22 L22 36 L8 22 Z" fill="none" stroke="currentColor" stroke-width="2.4"/>
+    <g fill="currentColor" font-family="'IBM Plex Sans Condensed','IBM Plex Sans',Arial,sans-serif" font-weight="600">
+    <text x="52" y="28" font-size="15" letter-spacing="1.6">MAISON AURELIA</text>
+    </g>
+  </g>
+</svg>

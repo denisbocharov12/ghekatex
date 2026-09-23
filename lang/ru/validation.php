@@ -1,0 +1,116 @@
+<?php
+
+/*
+| Сообщения валидации на русском.
+|
+| Файл намеренно неполный: описаны правила, которые встречаются в формах
+| витрины и панели. Всё остальное Laravel возьмёт из английского словаря
+| фреймворка по `fallback_locale`.
+*/
+
+return [
+    'accepted' => 'Нужно подтвердить поле «:attribute».',
+    'active_url' => 'Поле «:attribute» должно быть корректной ссылкой.',
+    'after' => 'Дата в поле «:attribute» должна быть позже :date.',
+    'after_or_equal' => 'Дата в поле «:attribute» должна быть не раньше :date.',
+    'alpha' => 'Поле «:attribute» может содержать только буквы.',
+    'alpha_dash' => 'Поле «:attribute» может содержать только буквы, цифры, дефис и подчёркивание.',
+    'alpha_num' => 'Поле «:attribute» может содержать только буквы и цифры.',
+    'array' => 'Поле «:attribute» должно быть массивом.',
+    'before' => 'Дата в поле «:attribute» должна быть раньше :date.',
+    'before_or_equal' => 'Дата в поле «:attribute» должна быть не позже :date.',
+    'between' => [
+        'array' => 'Поле «:attribute» должно содержать от :min до :max элементов.',
+        'file' => 'Файл в поле «:attribute» должен весить от :min до :max КБ.',
+        'numeric' => 'Значение поля «:attribute» должно быть от :min до :max.',
+        'string' => 'Поле «:attribute» должно содержать от :min до :max символов.',
+    ],
+    'boolean' => 'Поле «:attribute» должно быть логическим значением.',
+    'confirmed' => 'Поле «:attribute» не совпадает с подтверждением.',
+    'current_password' => 'Неверный пароль.',
+    'date' => 'Поле «:attribute» должно быть корректной датой.',
+    'date_format' => 'Поле «:attribute» должно соответствовать формату :format.',
+    'different' => 'Поля «:attribute» и «:other» должны различаться.',
+    'digits' => 'Поле «:attribute» должно содержать :digits цифр.',
+    'digits_between' => 'Поле «:attribute» должно содержать от :min до :max цифр.',
+    'dimensions' => 'Изображение в поле «:attribute» имеет недопустимые размеры.',
+    'distinct' => 'Значения в поле «:attribute» не должны повторяться.',
+    'email' => 'Поле «:attribute» должно содержать корректный e-mail.',
+    'ends_with' => 'Поле «:attribute» должно заканчиваться одним из значений: :values.',
+    'exists' => 'Выбранное значение в поле «:attribute» не найдено.',
+    'file' => 'Поле «:attribute» должно содержать файл.',
+    'filled' => 'Поле «:attribute» не может быть пустым.',
+    'gt' => [
+        'file' => 'Файл в поле «:attribute» должен весить больше :value КБ.',
+        'numeric' => 'Значение поля «:attribute» должно быть больше :value.',
+        'string' => 'Поле «:attribute» должно быть длиннее :value символов.',
+    ],
+    'gte' => [
+        'file' => 'Файл в поле «:attribute» должен весить не меньше :value КБ.',
+        'numeric' => 'Значение поля «:attribute» должно быть не меньше :value.',
+        'string' => 'Поле «:attribute» должно содержать не меньше :value символов.',
+    ],
+    'image' => 'Поле «:attribute» должно содержать изображение.',
+    'in' => 'Выбранное значение в поле «:attribute» недопустимо.',
+    'integer' => 'Поле «:attribute» должно быть целым числом.',
+    'json' => 'Поле «:attribute» должно содержать корректный JSON.',
+    'lt' => [
+        'file' => 'Файл в поле «:attribute» должен весить меньше :value КБ.',
+        'numeric' => 'Значение поля «:attribute» должно быть меньше :value.',
+        'string' => 'Поле «:attribute» должно быть короче :value символов.',
+    ],
+    'lte' => [
+        'file' => 'Файл в поле «:attribute» должен весить не больше :value КБ.',
+        'numeric' => 'Значение поля «:attribute» должно быть не больше :value.',
+        'string' => 'Поле «:attribute» должно содержать не больше :value символов.',
+    ],
+    'max' => [
+        'array' => 'Поле «:attribute» должно содержать не больше :max элементов.',
+        'file' => 'Файл в поле «:attribute» должен весить не больше :max КБ.',
+        'numeric' => 'Значение поля «:attribute» должно быть не больше :max.',
+        'string' => 'Поле «:attribute» должно содержать не больше :max символов.',
+    ],
+    'mimes' => 'Поле «:attribute» должно содержать файл типа: :values.',
+    'mimetypes' => 'Поле «:attribute» должно содержать файл типа: :values.',
+    'min' => [
+        'array' => 'Поле «:attribute» должно содержать не меньше :min элементов.',
+        'file' => 'Файл в поле «:attribute» должен весить не меньше :min КБ.',
+        'numeric' => 'Значение поля «:attribute» должно быть не меньше :min.',
+        'string' => 'Поле «:attribute» должно содержать не меньше :min символов.',
+    ],
+    'not_in' => 'Выбранное значение в поле «:attribute» недопустимо.',
+    'numeric' => 'Поле «:attribute» должно быть числом.',
+    'prohibited' => 'Поле «:attribute» не должно заполняться.',
+    'regex' => 'Поле «:attribute» имеет неверный формат.',
+    'required' => 'Заполните поле «:attribute».',
+    'required_if' => 'Заполните поле «:attribute», когда «:other» равно :value.',
+    'required_with' => 'Заполните поле «:attribute», когда указано «:values».',
+    'required_without' => 'Заполните поле «:attribute», когда не указано «:values».',
+    'same' => 'Поля «:attribute» и «:other» должны совпадать.',
+    'size' => [
+        'array' => 'Поле «:attribute» должно содержать :size элементов.',
+        'file' => 'Файл в поле «:attribute» должен весить :size КБ.',
+        'numeric' => 'Значение поля «:attribute» должно быть равно :size.',
+        'string' => 'Поле «:attribute» должно содержать :size символов.',
+    ],
+    'starts_with' => 'Поле «:attribute» должно начинаться с одного из значений: :values.',
+    'string' => 'Поле «:attribute» должно быть строкой.',
+    'unique' => 'Такое значение поля «:attribute» уже занято.',
+    'uploaded' => 'Не удалось загрузить файл в поле «:attribute».',
+    'url' => 'Поле «:attribute» должно содержать корректную ссылку.',
+
+    'attributes' => [
+        'name' => 'Имя',
+        'email' => 'E-mail',
+        'phone' => 'Телефон',
+        'company' => 'Компания',
+        'country' => 'Страна',
+        'subject' => 'Тема обращения',
+        'message' => 'Сообщение',
+        'consent' => 'Согласие на обработку данных',
+        'password' => 'Пароль',
+        'title' => 'Заголовок',
+        'slug' => 'Адрес',
+        'body' => 'Текст',
+    ],
+];
