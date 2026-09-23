@@ -26,8 +26,14 @@ const origin = (args.origin || 'http://127.0.0.1:8000').replace(/\/$/, '')
 const base = args.base === undefined ? '' : `/${args.base.replace(/^\/|\/$/g, '')}`.replace(/^\/$/, '')
 const outDir = path.resolve(args.out || 'dist')
 
-/** Заменять ли абсолютные адреса приложения на путь публикации. */
-const rewriteOrigin = 'rewrite-origin' in args
+/*
+| Адрес будущего сайта без подкаталога.
+|
+| В APP_URL подкаталог прописать нельзя: Laravel начинает отрезать его от
+| пути запроса и перестаёт находить маршруты. Поэтому приложение отдаёт
+| канонические ссылки без него, а подкаталог дописывается здесь.
+*/
+const site = (args.site || '').replace(/\/$/, '')
 
 /** Каталоги `public`, которые уезжают в статику как есть. */
 const assetDirs = ['build', 'brand', 'media', 'storage']
@@ -41,18 +47,25 @@ const assetDirs = ['build', 'brand', 'media', 'storage']
 */
 const rootPrefixes = ['/build/', '/brand/', '/media/', '/storage/', '/favicon.ico']
 
-function withBase(text) {
-    let result = text
+/*
+| Чем заменить адрес поднятого приложения.
+|
+| `url()` в Laravel берёт хост из текущего запроса, поэтому в разметке
+| стоит адрес `artisan serve` — и в канонических ссылках, и в путях к
+| собранным файлам. Меняем его на адрес публикации: с `--site` выходит
+| абсолютный адрес, без него — путь от корня домена.
+*/
+const publicRoot = site === '' ? base : `${site}${base}`
 
-    /*
-    | Локальная проверка выгрузки: приложение отдаёт абсолютные адреса со
-    | своим origin. В CI вместо этого выставляется APP_URL будущего сайта,
-    | и заменять уже нечего.
-    */
-    if (rewriteOrigin) {
-        result = result.replaceAll(origin, base)
-        result = result.replaceAll(origin.replaceAll('/', '\\/'), base.replaceAll('/', '\\/'))
-    }
+function escapeSlashes(value) {
+    return value.replaceAll('/', '\\/')
+}
+
+function withBase(text) {
+    // Адрес приложения встречается и в разметке, и в JSON пропсов Inertia
+    let result = text
+        .replaceAll(origin, publicRoot)
+        .replaceAll(escapeSlashes(origin), escapeSlashes(publicRoot))
 
     if (base === '') {
         return result

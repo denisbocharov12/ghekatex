@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      SITE_URL: ${{ format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
+      SITE_ORIGIN: ${{ format('https://{0}.github.io', github.repository_owner) }}
       BASE_PATH: ${{ github.event.repository.name }}
 
     steps:
@@ -54,9 +54,9 @@ jobs:
           {
             echo "APP_ENV=production"
             echo "APP_DEBUG=false"
-            echo "APP_URL=${SITE_URL}/${BASE_PATH}"
-            echo "ASSET_URL=${SITE_URL}/${BASE_PATH}"
-            echo "APP_STORAGE_URL=${SITE_URL}/${BASE_PATH}/storage"
+            # Подкаталог в APP_URL Laravel отрезает от пути запроса и
+            # перестаёт находить маршруты — его дописывает экспорт
+            echo "APP_URL=${SITE_ORIGIN}"
             echo "DB_CONNECTION=sqlite"
             echo "DB_DATABASE=$(pwd)/database/database.sqlite"
           } >> .env
@@ -75,6 +75,8 @@ jobs:
 
       - name: Запуск приложения
         run: |
+          # Меню кешируется абсолютными ссылками — кеш должен быть пустым
+          php artisan optimize:clear
           php artisan serve --host=127.0.0.1 --port=8000 &
           for attempt in $(seq 1 30); do
             if curl -sf -o /dev/null "http://127.0.0.1:8000/ro"; then
@@ -86,7 +88,7 @@ jobs:
           exit 1
 
       - name: Статический экспорт
-        run: node tools/static-export.mjs --origin=http://127.0.0.1:8000 --base="${BASE_PATH}" --out=dist
+        run: node tools/static-export.mjs --origin=http://127.0.0.1:8000 --base="${BASE_PATH}" --site="${SITE_ORIGIN}" --out=dist
 
       - uses: actions/configure-pages@v5
 
