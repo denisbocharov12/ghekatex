@@ -57,6 +57,19 @@ const rootPrefixes = ['/build/', '/brand/', '/media/', '/storage/', '/favicon.ic
 */
 const publicRoot = site === '' ? base : `${site}${base}`
 
+/*
+| Адрес приложения в обеих схемах.
+|
+| В продакшен-окружении провайдер включает `URL::forceScheme('https')`, и
+| приложение отдаёт `https://127.0.0.1:8000`, хотя обходим мы его по http.
+| Ищем оба варианта, иначе адреса остаются локальными.
+*/
+const originVariants = [...new Set([
+    origin,
+    origin.replace(/^https:/, 'http:'),
+    origin.replace(/^http:/, 'https:'),
+])]
+
 function escapeSlashes(value) {
     return value.replaceAll('/', '\\/')
 }
@@ -64,8 +77,12 @@ function escapeSlashes(value) {
 function withBase(text) {
     // Адрес приложения встречается и в разметке, и в JSON пропсов Inertia
     let result = text
-        .replaceAll(origin, publicRoot)
-        .replaceAll(escapeSlashes(origin), escapeSlashes(publicRoot))
+
+    for (const variant of originVariants) {
+        result = result
+            .replaceAll(variant, publicRoot)
+            .replaceAll(escapeSlashes(variant), escapeSlashes(publicRoot))
+    }
 
     if (base === '') {
         return result
