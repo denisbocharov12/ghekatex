@@ -110,6 +110,41 @@ function withBase(text) {
     return result
 }
 
+/*
+| Адрес страницы в пропсах Inertia.
+|
+| При запуске Inertia выполняет `replaceState` с этим значением, а лежит
+| там путь без подкаталога — адресная строка уезжала на `/ro` в корень
+| домена. Правим поле разбором JSON, а не заменой по строке: путь короткий
+| и слишком легко совпадает с чужими значениями.
+*/
+function withPageUrl(html) {
+    if (base === '') {
+        return html
+    }
+
+    return html.replace(
+        /(<script data-page="[^"]*" type="application\/json">)(.*?)(<\/script>)/s,
+        (match, open, json, close) => {
+            try {
+                const page = JSON.parse(json)
+
+                if (typeof page.url !== 'string' || page.url.startsWith(base)) {
+                    return match
+                }
+
+                page.url = `${base}${page.url}`
+
+                return open + JSON.stringify(page) + close
+            } catch {
+                console.warn('  не удалось разобрать пропсы Inertia — адрес страницы оставлен как есть')
+
+                return match
+            }
+        },
+    )
+}
+
 async function writeFile(relative, contents) {
     const target = path.join(outDir, relative)
 
@@ -204,7 +239,7 @@ async function main() {
             continue
         }
 
-        const html = withBase(await response.text())
+        const html = withPageUrl(withBase(await response.text()))
 
         await writeFile(path.join(route.replace(/^\//, ''), 'index.html'), html)
     }
@@ -232,7 +267,7 @@ async function main() {
     // Pages отдаёт 404.html на любой неизвестный адрес
     const notFound = await fetch(`${origin}${fallback}/stranica-ne-naydena-404`)
 
-    await writeFile('404.html', withBase(await notFound.text()))
+    await writeFile('404.html', withPageUrl(withBase(await notFound.text())))
 
     for (const file of ['sitemap.xml', 'robots.txt']) {
         const response = await fetch(`${origin}/${file}`)
